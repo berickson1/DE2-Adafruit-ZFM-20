@@ -143,7 +143,7 @@ ELF := FingerprintSensorExample.elf
 
 # Paths to C, C++, and assembly source files.
 C_SRCS := hello_ucosii.c
-CXX_SRCS :=
+CXX_SRCS := ZFM-20/ZFMComm.cpp
 ASM_SRCS :=
 
 
