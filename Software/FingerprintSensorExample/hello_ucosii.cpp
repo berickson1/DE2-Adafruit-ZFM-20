@@ -64,7 +64,7 @@ void task1(void* pdata)
 		OSTimeDlyHMSM(0, 0, 3, 0);
 		printf("Place finger on sensor again.\n");
 		while (!fingerprintSensor.scanFinger()
-				|| !fingerprintSensor.storeImage(1)) {
+				|| !fingerprintSensor.storeImage(2)) {
 			//Sleep for a second and try again
 			OSTimeDlyHMSM(0, 0, 1, 0);
 		}
@@ -91,7 +91,6 @@ void task2(void* pdata)
 {
   while (1)
   { 
-    printf("Hello from task2\n");
     OSTimeDlyHMSM(0, 0, 3, 0);
   }
 }
