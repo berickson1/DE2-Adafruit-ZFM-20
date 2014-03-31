@@ -44,8 +44,8 @@ impact_impact.xwbt
 *.elf
 /Software/*/.settings/
 /Software/*/obj/
-/Software/*/BioLock.map
-/Software/*/BioLock.objdump
+/Software/*/*.map
+/Software/*/*.objdump
 bin/
 gen/
 
