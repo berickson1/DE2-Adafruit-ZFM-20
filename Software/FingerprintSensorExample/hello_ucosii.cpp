@@ -65,7 +65,7 @@ int main(void)
   
   OSTaskCreateExt(task1,
                   NULL,
-                  (void *)&task1_stk[TASK_STACKSIZE-1],
+                  &task1_stk[TASK_STACKSIZE-1],
                   TASK1_PRIORITY,
                   TASK1_PRIORITY,
                   task1_stk,
@@ -76,7 +76,7 @@ int main(void)
                
   OSTaskCreateExt(task2,
                   NULL,
-                  (void *)&task2_stk[TASK_STACKSIZE-1],
+                  &task2_stk[TASK_STACKSIZE-1],
                   TASK2_PRIORITY,
                   TASK2_PRIORITY,
                   task2_stk,
