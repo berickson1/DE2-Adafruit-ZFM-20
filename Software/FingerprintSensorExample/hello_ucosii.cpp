@@ -30,6 +30,7 @@
 
 #include <stdio.h>
 #include "includes.h"
+#include "ZFM-20/ZFMComm.h"
 
 /* Definition of Task Stacks */
 #define   TASK_STACKSIZE       2048
@@ -44,11 +45,46 @@ OS_STK    task2_stk[TASK_STACKSIZE];
 /* Prints "Hello World" and sleeps for three seconds */
 void task1(void* pdata)
 {
-  while (1)
-  { 
-    printf("Hello from task1\n");
-    OSTimeDlyHMSM(0, 0, 3, 0);
-  }
+	while (true) {
+		//Init sensor
+		ZFMComm fingerprintSensor;
+		fingerprintSensor.init(SERIAL_NAME);
+		int storeFid = -1;
+		while (storeFid == -1){
+			scanf("%d", &storeFid);
+		}
+		//Enroll a fingerprint
+		printf("Place finger on sensor to enroll.\n");
+		while (!fingerprintSensor.scanFinger()
+				|| !fingerprintSensor.storeImage(1)) {
+			//Sleep for a second and try again
+			OSTimeDlyHMSM(0, 0, 1, 0);
+		}
+
+		OSTimeDlyHMSM(0, 0, 3, 0);
+		printf("Place finger on sensor again.\n");
+		while (!fingerprintSensor.scanFinger()
+				|| !fingerprintSensor.storeImage(1)) {
+			//Sleep for a second and try again
+			OSTimeDlyHMSM(0, 0, 1, 0);
+		}
+		printf("Enrolling ID:%d\n", storeFid);
+		fingerprintSensor.storeFingerprint(storeFid);
+
+		//Continue while we have no error
+		while (!fingerprintSensor.hasError()) {
+			OSTimeDlyHMSM(0, 0, 1, 0);
+			printf("Checking for fingerprint\n");
+			while (!fingerprintSensor.scanFinger()
+					|| !fingerprintSensor.storeImage(1)) {
+				//Sleep for a second and try again
+				OSTimeDlyHMSM(0, 0, 1, 0);
+			}
+			printf("Fingerprint acquired, checking fingerprint ID\n");
+			int fid = fingerprintSensor.findFingerprint(1);
+			printf("Fingerprint id:%d\n", fid);
+		}
+	}
 }
 /* Prints "Hello World" and sleeps for three seconds */
 void task2(void* pdata)
