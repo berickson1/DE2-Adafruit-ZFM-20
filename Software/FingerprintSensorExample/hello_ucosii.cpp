@@ -50,6 +50,7 @@ void task1(void* pdata)
 		ZFMComm fingerprintSensor;
 		fingerprintSensor.init(SERIAL_NAME);
 		int storeFid = -1;
+		printf("Enter ID to store fingerprint: ");
 		while (storeFid == -1){
 			scanf("%d", &storeFid);
 		}
